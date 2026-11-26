@@ -61,6 +61,14 @@ def programas_por_nivel(nivel):
                     "programas": sorted(lista)})
 
 #4 Consulta
+@app.route("/api/certificados/<programa>")
+def certificados(programa):
+    filtro={F_PROGRAMA: programa, F_ESTADO_APRENDIZ: "Certificado"}
+    cursor=aprendices.find(filtro, proj(F_FICHA, F_NOMBRE, F_AP1, F_AP2),
+                            collation=COL)
+    return jsonify({"Programa": programa,
+                    "Aprendices_Certificados": list(cursor)})
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)
