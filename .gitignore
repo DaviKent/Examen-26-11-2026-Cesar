@@ -1,3 +1,10 @@
-.env
+# Entorno virtual
 venv/
+.venv/
+
+# Credenciales
+.env
+
+# Python
 __pycache__/
+*.pyc
