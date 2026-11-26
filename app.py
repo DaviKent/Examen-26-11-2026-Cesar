@@ -119,6 +119,13 @@ def por_estado(ficha, estado):
                     "Estado de los Aprendices": estado,
                     "Ficha": str(ficha)})
 
+#10 Consulta
+@app.route("/api/programasComplementariaVirtual")
+def programas_complementaria_virtual():
+    lista = aprendices.distinct(
+        F_PROGRAMA, {F_NIVEL: "COMPLEMENTARIA VIRTUAL"}, collation=COL)
+    return jsonify({"nivel de formación": "COMPLEMENTARIA VIRTUAL",
+                    "programas": sorted(lista)})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)
