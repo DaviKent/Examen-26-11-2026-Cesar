@@ -92,6 +92,14 @@ def terminada_unificacion(programa):
                     "Estado de la ficha": "Terminada por unificación",
                     "Aprendices": list(cursor)})
 
+#7 Consulta
+@app.route("/api/aprendicesPrograma/<programa>")
+def aprendices_programa(programa):
+    cursor = aprendices.find(
+        {F_PROGRAMA: programa},
+        proj(F_PROGRAMA, F_FICHA, F_NOMBRE, F_AP1, F_AP2), collation=COL)
+    return jsonify({"Aprendices": list(cursor)})
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)
