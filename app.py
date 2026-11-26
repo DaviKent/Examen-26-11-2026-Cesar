@@ -54,7 +54,13 @@ def cantidad_por_nivel(nivel):
                     "Nivel de formacion": nivel.upper()})
 
 #3 Consulta
+@app.route("/api/programas/<nivel>")
+def programas_por_nivel(nivel):
+    lista=aprendices.distinct(F_PROGRAMA, {F_NIVEL: nivel}, collation=COL)
+    return jsonify({"nivel de formacion": nivel.upper(),
+                    "programas": sorted(lista)})
 
+#4 Consulta
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)
