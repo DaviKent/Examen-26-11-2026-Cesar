@@ -7,12 +7,10 @@ from pymongo.collation import Collation
 
 load_dotenv()
 
-# ---------------------------------------------------------------
-# Conexión (los valores salen del archivo .env)
-
+# Conexion
 client = MongoClient(os.getenv("MONGO_URI"))
-db = client[os.getenv("DB_NAME")]               # CURSOS_CTPI_2026-SUNOMBRE
-aprendices = db[os.getenv("COLLECTION_NAME")]   # APRENDICES_SUAPELLIDO
+db = client[os.getenv("DB_NAME")]
+aprendices = db[os.getenv("COLLECTION_NAME")]  
 
 # Ignora mayúsculas/minúsculas y tildes
 COL = Collation(locale="es", strength=1)
@@ -30,7 +28,8 @@ F_IDENT = "NUMERO_DOCUMENTO"
 NO_ID = {"_id": 0}
 
 app = Flask(__name__)
-app.json.ensure_ascii = False      #muestra tildes y ñ correctamente
+#muestra tildes y ñ correctamente
+app.json.ensure_ascii = False   
 app.json.sort_keys = False
 
 
@@ -41,11 +40,20 @@ def proj(*campos):
     return p
 
 
-#1 Cantidad de aprendices
+#1 Consulta
 @app.route("/api/cantidadAprendices")
 def cantidad_aprendices():
-    cantidad = aprendices.count_documents({})
+    cantidad=aprendices.count_documents({})
     return jsonify({"CantidadAprendices": cantidad})
+
+#2 Consulta
+@app.route("/api/cantidadAprendices/<nivel>")
+def cantidad_por_nivel(nivel):
+    cantidad=aprendices.count_documents({F_NIVEL: nivel}, collation=COL)
+    return jsonify({"CantidadAprendices": cantidad,
+                    "Nivel de formacion": nivel.upper()})
+
+#3 Consulta
 
 
 if __name__ == "__main__":
