@@ -69,6 +69,18 @@ def certificados(programa):
     return jsonify({"Programa": programa,
                     "Aprendices_Certificados": list(cursor)})
 
+#5 Consulta
+@app.route("/api/porCertificar/<int:ficha>/<int:cantidad>")
+def por_certificar(ficha, cantidad):
+    filtro = {F_FICHA: ficha, F_ESTADO_APRENDIZ: "Por certificar"}
+    cursor = (aprendices
+              .find(filtro,
+                    proj(F_FICHA, F_PROGRAMA, F_IDENT, F_NOMBRE, F_AP1, F_AP2),
+                    collation=COL)
+              .sort(F_AP1, -1)
+              .limit(cantidad))
+    return jsonify({"Cantidad de Aprendices por Certificar": list(cursor)})
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)
