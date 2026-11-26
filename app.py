@@ -109,5 +109,16 @@ def cantidad_certificados(programa):
                     "Estado": "Certificado",
                     "CantidadAprendices": cantidad})
 
+#9 Cunsulta
+@app.route("/api/porEstado/<int:ficha>/<estado>")
+def por_estado(ficha, estado):
+    cursor = aprendices.find(
+        {F_FICHA: ficha, F_ESTADO_APRENDIZ: estado},
+        proj(F_FICHA, F_NOMBRE, F_AP1, F_PROGRAMA, F_AP2), collation=COL)
+    return jsonify({"Aprendices": list(cursor),
+                    "Estado de los Aprendices": estado,
+                    "Ficha": str(ficha)})
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)
