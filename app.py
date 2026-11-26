@@ -100,6 +100,14 @@ def aprendices_programa(programa):
         proj(F_PROGRAMA, F_FICHA, F_NOMBRE, F_AP1, F_AP2), collation=COL)
     return jsonify({"Aprendices": list(cursor)})
 
+#8 Consulta
+@app.route("/api/cantidadCertificados/<programa>")
+def cantidad_certificados(programa):
+    filtro = {F_PROGRAMA: programa, F_ESTADO_APRENDIZ: "Certificado"}
+    cantidad = aprendices.count_documents(filtro, collation=COL)
+    return jsonify({"Programa": programa,
+                    "Estado": "Certificado",
+                    "CantidadAprendices": cantidad})
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000, debug=True)
