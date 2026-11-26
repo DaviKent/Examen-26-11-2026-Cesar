@@ -9,19 +9,14 @@ load_dotenv()
 
 # ---------------------------------------------------------------
 # Conexión (los valores salen del archivo .env)
-# ---------------------------------------------------------------
+
 client = MongoClient(os.getenv("MONGO_URI"))
 db = client[os.getenv("DB_NAME")]               # CURSOS_CTPI_2026-SUNOMBRE
 aprendices = db[os.getenv("COLLECTION_NAME")]   # APRENDICES_SUAPELLIDO
 
-# Ignora mayúsculas/minúsculas y tildes (Formacion == FORMACIÓN)
+# Ignora mayúsculas/minúsculas y tildes
 COL = Collation(locale="es", strength=1)
 
-# ---------------------------------------------------------------
-# Nombres de los campos en tu colección.
-# AJUSTA los que no coincidan con los encabezados de tu CSV
-# (míralos en MongoDB Compass).
-# ---------------------------------------------------------------
 F_FICHA = "FICHA"
 F_NOMBRE = "NOMBRE"
 F_AP1 = "PRIMER_APELLIDO"
